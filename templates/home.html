@@ -1,0 +1,524 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Smart Face Attendance</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+        body {
+            background: #252c36;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #111827, #093eb1);
+            color: white;
+            border-radius: 20px;
+            padding: 45px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-weight: 700;
+        }
+
+        .hero p {
+            opacity: 0.9;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+            height: 100%;
+        }
+
+        .stat-number {
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(41, 9, 9, 0.06);
+        }
+
+        .card-header {
+            background: white;
+            border-bottom: 1px solid #fac4c4;
+            font-weight: bold;
+            padding: 18px 20px;
+        }
+
+        .btn {
+            border-radius: 10px;
+        }
+
+        .table {
+            vertical-align: middle;
+        }
+
+        .badge-present {
+            background: #dcfce7;
+            color: #2ada6d;
+            padding: 7px 12px;
+            border-radius: 20px;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 25px;
+            text-align: center;
+            color: #9314ce;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ======================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="navbar navbar-expand-lg bg-white">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="/">
+             AI Smart Attendance by akash
+        </a>
+
+        <div>
+            <a href="/" class="btn btn-outline-primary btn-sm">
+                Dashboard
+            </a>
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <!-- ==================================================
+         FLASH MESSAGES
+    =================================================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="mt-4">
+
+                {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                        {{ message }}
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- ==================================================
+         HERO
+    =================================================== -->
+
+    <section class="hero">
+
+        <h1>
+            AI Face Recognition Attendance
+        </h1>
+
+        <p class="lead">
+            Smart, automated and real-time student attendance
+            using face recognition technology.
+        </p>
+
+        <form
+            action="/start"
+            method="POST"
+            class="mt-4">
+
+            <button
+                type="submit"
+                class="btn btn-light btn-lg px-4">
+
+                 Start Face Recognition
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- ==================================================
+         STATISTICS
+    =================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6">
+
+            <div class="stat-card">
+
+                <div class="text-muted">
+                    Registered Students
+                </div>
+
+                <div class="stat-number text-primary">
+                    {{ total_students }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <div class="stat-card">
+
+                <div class="text-muted">
+                    Present Today
+                </div>
+
+                <div class="stat-number text-success">
+                    {{ total_present }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         REGISTER STUDENT
+    =================================================== -->
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+         Register New Student
+        </div>
+
+        <div class="card-body">
+
+            <p class="text-muted">
+                Enter the student's details and the system
+                will capture 10 face images using the webcam.
+            </p>
+
+            <form
+                action="/add"
+                method="POST">
+
+                <div class="row g-3">
+
+                    <div class="col-md-5">
+
+                        <label class="form-label">
+                            Student Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            placeholder="Enter student name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Roll Number
+                        </label>
+
+                        <input
+                            type="text"
+                            name="roll"
+                            class="form-control"
+                            placeholder="Enter roll number"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-3 d-flex align-items-end">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100">
+
+                             Register Student
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         TODAY'S ATTENDANCE
+    =================================================== -->
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+          Today's Attendance
+        </div>
+
+        <div class="card-body">
+
+            {% if attendance %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+
+                        <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Roll Number</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for row in attendance %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ loop.index }}
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            {{ row["Name"] }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ row["Roll"] }}
+                                    </td>
+
+                                    <td>
+                                        {{ row["Time"] }}
+                                    </td>
+
+                                    <td>
+                                        <span class="badge-present">
+                                            Present
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-4">
+
+                    <h5>
+                        No attendance recorded yet.
+                    </h5>
+
+                    <p class="text-muted">
+                        Start face recognition to record attendance.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         REGISTERED STUDENTS
+    =================================================== -->
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+             Registered Students
+        </div>
+
+        <div class="card-body">
+
+            {% if students %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+
+                        <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Roll Number</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for student in students %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ loop.index }}
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            {{ student.name }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ student.roll }}
+                                    </td>
+
+                                    <td>
+
+                                        <form
+                                            action="/delete/{{ student.folder }}"
+                                            method="POST"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Are you sure you want to delete this student?');">
+
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-outline-danger">
+
+                                                🗑 Delete
+
+                                            </button>
+
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-4">
+
+                    <h5>
+                        No students registered.
+                    </h5>
+
+                    <p class="text-muted">
+                        Use the registration form above to add a student.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    <div>
+        AI Smart Face Recognition Attendance System
+    </div>
+
+    <small>
+        Powered by Python • Flask • OpenCV • Machine Learning
+    </small>
+
+</footer>
+
+
+<!-- Bootstrap JavaScript -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>
+```
