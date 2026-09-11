@@ -77,8 +77,8 @@ Go to: http://127.0.0.1:5000
 ### How to Use
 
 #### Add a New User
-1. Enter Name (e.g., `Omkar Kadam`)
-2. Enter ID/Roll No (e.g., `101`)
+1. Enter Name (e.g., `akash s`)
+2. Enter ID/Roll No (e.g., `1MJ24CS013`)
 3. Click **"Add New User"**
 4. Look at the camera → 10 photos will be captured automatically
 5. Model retrains instantly
@@ -105,23 +105,6 @@ Go to: http://127.0.0.1:5000
 ### Sample Attendance CSV (`Attendance/Attendance-11_27_25.csv`)
 ```csv
 Name,Roll,Time
-Omkar Kadam,101,21:35:42
-Abhinav Prasad,102,21:36:10
-```
+Akash S,1MJ24CS013,21:38:35
 
-
-### Contributors
-- **Omkar Kadam** – Full Stack Developer & AI Enthusiast
-
----
-
-### License
-MIT License – Feel free to use in college projects, startups, or classrooms!
-
----
-
-**Star this repo if you liked it!**  
-Made with ❤️ using Python & OpenCV
-
----
 ```
